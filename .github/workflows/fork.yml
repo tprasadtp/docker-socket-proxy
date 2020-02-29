@@ -15,6 +15,7 @@ jobs:
         upstream_branch: "master"
         branch: "master"
         method: "merge"
+        args: "--no-push"
       env:
         GIT_USER: valarie-ci-bot
         GIT_EMAIL: valarie-ci-bot@users.noreply.github.com
