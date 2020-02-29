@@ -1,5 +1,4 @@
-ARG REPO=library
-FROM ${REPO}/haproxy:1.9-alpine
+FROM haproxy:1.9-alpine
 
 EXPOSE 2375
 ENV ALLOW_RESTARTS=0 \
@@ -30,11 +29,19 @@ ENV ALLOW_RESTARTS=0 \
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 
 # Metadata
-ARG VCS_REF
-ARG BUILD_DATE
-LABEL org.label-schema.schema-version="1.0" \
-      org.label-schema.vendor=Tecnativa \
-      org.label-schema.license=Apache-2.0 \
-      org.label-schema.build-date="$BUILD_DATE" \
-      org.label-schema.vcs-ref="$VCS_REF" \
-      org.label-schema.vcs-url="https://github.com/Tecnativa/docker-socket-proxy"
+ARG GITHUB_SHA
+ARG GITHUB_WORKFLOW
+ARG GITHUB_RUN_NUMBER
+ARG VERSION
+ARG GIT_TREE_DIRTY=false
+
+LABEL org.opencontainers.image.authors="Prasad Tengse<tprasadtp@users.noreply.github.com>" \
+      org.opencontainers.image.source="https://github.com/tprasadtp/forklift" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      com.github.actions.workflow="${GITHUB_WORKFLOW}" \
+      com.github.actions.run="${GITHUB_RUN_NUMBER}" \
+      vcs.git.upstream.url="https://github.com/Tecnativa/docker-socket-proxy" \
+      vcs.git.upstream.vendor="https://github.com/Tecnativa" \
+      vcs.git.commit.sha="${GITHUB_SHA}" \
+      vsc.git.commit.tree.dirty="${GIT_TREE_DIRTY}"
