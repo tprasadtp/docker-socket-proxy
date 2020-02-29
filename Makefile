@@ -151,12 +151,13 @@ smoke-test: docker ## Smoke Test
 	docker run -d --rm \
 		--name dockerproxy \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		-p 127.0.0.1:2375:2375 \
+		-p 127.0.0.1:12375:2375 \
 		-e INFO=1 \
 		-e CONTAINERS=1 \
 		tprasadtp/docker-socket-proxy:latest
-	curl -sSfL http://127.0.0.1:2375/info
-	docker stop dockerproxy || echo "Failed to Stop Proxy"
+	curl -sf http://127.0.0.1:12375/info | jq
+	curl -sf http://127.0.0.1:12375/images | jq || false
+	@docker stop dockerproxy || echo "Failed to Stop Proxy"
 
 
 .PHONY: debug-vars
