@@ -1,7 +1,7 @@
 # Docker Socket Proxy
 
-[![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg?branch=master)](https://github.com/tprasadtp/forklift/actions?query=workflow%3Abuild)
-[![labels](https://github.com/tprasadtp/docker-socket-proxy/workflows/lables/badge.svg)](https://github.com/tprasadtp/forklift/actions?query=workflow%3Alabels)
+[![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Abuild)
+[![labels](https://github.com/tprasadtp/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Alabels)
 
 > This fork provides ARM/ARM64 images.
 
