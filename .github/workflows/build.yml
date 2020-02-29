@@ -23,19 +23,14 @@ jobs:
       - name: Lint Dockerfiles
         run: |
           make docker-lint
-  smoke-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-      - name: Smoke Test
-        run: |
-          docker run -d --privileged=true --rm --name dockerproxy -v /var/run/docker.sock:/var/run/docker.sock -p 12375:2375 -e INFO=1 tprasadtp/docker-socket-proxy:latest
-          curl -sSf http://localhost:12375/version > /dev/null
-          curl -sSf http://localhost:12375/info > /dev/null
-          curl -sSf http://localhost:12375/images > /dev/null || true
-          docker stop dockerproxy
+  # smoke-test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #       with:
+  #         persist-credentials: false
+  #     - name: Smoke Test
+  #       run: make smoke-test
   docker:
     needs: [ lint, smoke-test]
     runs-on: ubuntu-latest
