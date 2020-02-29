@@ -1,9 +1,11 @@
 # Docker Socket Proxy
 
-[![](https://images.microbadger.com/badges/version/tecnativa/docker-socket-proxy:latest.svg)](https://microbadger.com/images/tecnativa/docker-socket-proxy:latest "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/tecnativa/docker-socket-proxy:latest.svg)](https://microbadger.com/images/tecnativa/docker-socket-proxy:latest "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/commit/tecnativa/docker-socket-proxy:latest.svg)](https://microbadger.com/images/tecnativa/docker-socket-proxy:latest "Get your own commit badge on microbadger.com")
-[![](https://images.microbadger.com/badges/license/tecnativa/docker-socket-proxy.svg)](https://microbadger.com/images/tecnativa/docker-socket-proxy "Get your own license badge on microbadger.com")
+[![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Abuild)
+[![labels](https://github.com/tprasadtp/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Alabels)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
+![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
+
+> This fork provides ARM/ARM64 images.
 
 ## What?
 
@@ -144,7 +146,7 @@ does not need.
 ## Logging
 
 You can set the logging level or severity level of the messages to be logged with the
- environment variable `LOG_LEVEL`. Defaul value is info. Possible values are: debug, 
+ environment variable `LOG_LEVEL`. Defaul value is info. Possible values are: debug,
  info, notice, warning, err, crit, alert and emerg.
 
 ## Supported API versions

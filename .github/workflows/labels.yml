@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - ".gitignore"
+      - ".envrc"
+      - "**.md"
+      - ".vscode/**"
+      - ".dependabot/**"
+      - "_config.yml"
+name: labels
+jobs:
+  labels:
+    name: labels
+    runs-on: ubuntu-latest
+    steps:
+    - name: sync labels
+      uses: tprasadtp/labels@master
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
