@@ -144,6 +144,20 @@ help: ## This help dialog.
         printf "%s\n" $$help_info; \
     done
 
+.PHONY: smoke-test
+smoke-test: docker ## Smoke Test
+	@echo -e "\033[92m➜ $@ \033[0m"
+	@echo -e "\033[92m✱ Building Docker Image $(DOCKER_USER)/$(NAME):$(DOCKER_TAG)\033[0m"
+	docker run -d --rm \
+		--name dockerproxy \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-p 127.0.0.1:2375:2375 \
+		-e INFO=1 \
+		-e CONTAINERS=1 \
+		tprasadtp/docker-socket-proxy:latest
+	curl -sSfL http://127.0.0.1:2375/info
+	docker stop dockerproxy || echo "Failed to Stop Proxy"
+
 
 .PHONY: debug-vars
 debug-vars:
