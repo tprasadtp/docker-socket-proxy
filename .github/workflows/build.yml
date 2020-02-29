@@ -32,7 +32,8 @@ jobs:
   #     - name: Smoke Test
   #       run: make smoke-test
   docker:
-    needs: [ lint, smoke-test]
+    # needs: [ lint, smoke-test]
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
