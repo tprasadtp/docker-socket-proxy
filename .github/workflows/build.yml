@@ -31,7 +31,7 @@ jobs:
           persist-credentials: false
       - name: Smoke Test
         run: |
-          docker run -d -privileged=true --rm --name dockerproxy -v /var/run/docker.sock:/var/run/docker.sock -p 12375:2375 -e INFO=1 tprasadtp/docker-socket-proxy:latest
+          docker run -d --privileged=true --rm --name dockerproxy -v /var/run/docker.sock:/var/run/docker.sock -p 12375:2375 -e INFO=1 tprasadtp/docker-socket-proxy:latest
           curl -sSf http://localhost:12375/version > /dev/null
           curl -sSf http://localhost:12375/info > /dev/null
           curl -sSf http://localhost:12375/images > /dev/null || true
