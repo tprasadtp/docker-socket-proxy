@@ -154,9 +154,9 @@ smoke-test: ## Smoke Test
 		-p 127.0.0.1:12375:2375 \
 		-e INFO=1 \
 		tprasadtp/docker-socket-proxy:latest
-	curl -sSf http://127.0.0.1:12375/version > /dev/null
-	curl -sSf http://127.0.0.1:12375/info > /dev/null
-	curl -sSf http://127.0.0.1:12375/images > /dev/null || true
+	curl -sSf http://127.0.0.1:version12375/ | jq
+	curl -sSf http://127.0.0.1:12375/info | jq
+	curl -sf http://127.0.0.1:12375/images || true
 	@docker stop dockerproxy || echo "Failed to Stop Proxy"
 
 

@@ -36,11 +36,11 @@ ARG VERSION
 ARG GIT_TREE_DIRTY=false
 
 LABEL org.opencontainers.image.authors="Prasad Tengse<tprasadtp@users.noreply.github.com>" \
-      org.opencontainers.image.source="https://github.com/tprasadtp/forklift" \
+      org.opencontainers.image.source="https://github.com/tprasadtp/docker-socket-proxy" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.licenses="Apache-2.0" \
       com.github.actions.workflow="${GITHUB_WORKFLOW}" \
-      com.github.actions.run="${GITHUB_RUN_NUMBER}" \
+      com.github.actions.build="${GITHUB_RUN_NUMBER}" \
       vcs.git.upstream.url="https://github.com/Tecnativa/docker-socket-proxy" \
       vcs.git.upstream.vendor="https://github.com/Tecnativa" \
       vcs.git.commit.sha="${GITHUB_SHA}" \
