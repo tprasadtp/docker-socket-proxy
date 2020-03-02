@@ -7,6 +7,11 @@
 
 > This fork provides ARM/ARM64 images, provider finer control over `POST` and `DELETE` endpoints and adds some tests.
 
+> Checkout [v2 Beta](https://github.com/tprasadtp/docker-socket-proxy/tree/finer-control-over-endpoints) which provides more fine grained control over `POST` and `DELETE` API endpoints.
+> You can use docker image `tprasadtp/docker-socket-proxy:finer-control-over-endpoints` or `tprasadtp/docker-socket-proxy:v2.0.0-beta`
+>
+> ![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg?branch=finer-control-over-endpoints)
+
 ## What?
 
 This is a security-enhanced proxy for the Docker Socket.
