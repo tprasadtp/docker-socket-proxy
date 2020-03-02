@@ -26,6 +26,11 @@
     [ "$status" -eq 0 ]
 }
 
+@test "Sleep a bit for container to be up" {
+  run sleep 15
+  [ "$status" -eq 0 ]
+}
+
 @test "Expect OK /_ping" {
   run curl -s "http://${DOCKER_ENDPOINT}/_ping"
   [ "$status" -eq 0 ]
