@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-@test "GET /containers" {
+@test "GET /containers [200]" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/containers/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
@@ -11,7 +11,7 @@
   [ "$status" -eq 0 ]
 }
 
-@test "POST /containers CREATE" {
+@test "POST /containers CREATE [201]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -20,10 +20,10 @@
   -d '{"Image": "gcr.io/google_containers/pause:latest", "NetworkDisabled": true}' \
   "http://${DOCKER_ENDPOINT}/containers/create?name=pause"
   [ "$status" -eq 0 ]
-  [ "$output" -eq 201 ] || [ "$output" -eq 409 ]
+  [ "$output" -eq 201 ]
 }
 
-@test "GET /containers INSPECT (existing)" {
+@test "GET /containers INSPECT [200]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -32,7 +32,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers INSPECT (non-existing)" {
+@test "GET /containers INSPECT [404]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -41,7 +41,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "GET /containers PS (existing)" {
+@test "GET /containers PS [200]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -50,7 +50,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers PS (non-existing)" {
+@test "GET /containers PS [404]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -59,7 +59,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "GET /containers DIFF (existing)" {
+@test "GET /containers DIFF [200]" {
   run curl -s \
   -o /dev/null \
   -w "%{http_code}" \
@@ -68,7 +68,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers DIFF (non-existing)" {
+@test "GET /containers DIFF [404]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -78,7 +78,7 @@
 }
 
 # Stats
-@test "GET /containers STATS (existing)" {
+@test "GET /containers STATS [200]" {
   run curl -s \
   -o /dev/null \
   -w "%{http_code}" \
@@ -87,7 +87,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers STATS (non-existing)" {
+@test "GET /containers STATS [404]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -96,7 +96,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "POST /containers START (existing)" {
+@test "POST /containers START [204|304]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -106,7 +106,7 @@
   [ "$output" -eq 204 ] || [ "$output" -eq 304 ] || [ "$output" -eq 409 ]
 }
 
-@test "POST /containers START (non-existing)" {
+@test "POST /containers START [404]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -116,7 +116,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "POST /containers STOP (existing)" {
+@test "POST /containers STOP [204|304]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -126,7 +126,7 @@
   [ "$output" -eq 204 ] || [ "$output" -eq 304 ]
 }
 
-@test "POST /containers STOP (non-existing)" {
+@test "POST /containers STOP [404]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -136,7 +136,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "POST /containers RESTART (existing)" {
+@test "POST /containers RESTART [204]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -146,7 +146,7 @@
   [ "$output" -eq 204 ]
 }
 
-@test "POST /containers RESTART (non-existing)" {
+@test "POST /containers RESTART [404]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -156,7 +156,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "POST /containers PAUSE (existing)" {
+@test "POST /containers PAUSE [204|304]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \

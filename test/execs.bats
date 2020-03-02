@@ -2,7 +2,7 @@
 
 export exec_id="$(curl -s -H "Content-Type: application/json" -X POST -d '{"Cmd": [ "id" ]}' "http://${DOCKER_ENDPOINT}/containers/dockerproxy/exec" | jq .Id)"
 
-@test "POST /exec DISABLED [SHOULD RETURN 403]" {
+@test "POST /exec/start DISABLED [SHOULD RETURN 403]" {
   run curl -s \
     -H "Content-Type: application/json" \
     -X POST \

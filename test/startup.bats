@@ -23,7 +23,7 @@
       -e CONTAINERS_RESIZE=1 \
       -e CONTAINERS_START=1 \
       -e CONTAINERS_UNPAUSE=1 \
-      -e CONTAINERS_UPDATE=1 \
+      -e CONTAINERS_UPDATE=0 \
       -e CONTAINERS_WAIT=1 \
       -e CONTAINERS=1 \
       -e DISTRIBUTION=1 \
