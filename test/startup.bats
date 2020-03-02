@@ -33,7 +33,7 @@
       -e IMAGES_DELETE=1 \
       -e IMAGES=1 \
       -e INFO=1 \
-      -e LOG_LEVEL=info \
+      -e LOG_LEVEL=debug \
       -e NETWORKS_CONNECT=1 \
       -e NETWORKS_CREATE=1 \
       -e NETWORKS_DELETE=1 \

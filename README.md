@@ -5,7 +5,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
 ![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
 
-> This fork provides ARM/ARM64 images, and adds some tests.
+> This fork provides ARM/ARM64 images, provider finer control over `POST` and `DELETE` endpoints and adds some tests.
 
 ## What?
 
@@ -116,7 +116,7 @@ by default. Maximum caution when enabling these.
 
 - `AUTH`
 - `SECRETS`
-- `POST` and `DELETE`: When disabled, only `GET` and `HEAD` operations are allowed, meaning
+- `POST` and `DELETE`: When disabled (default), only `GET` and `HEAD` operations are allowed, meaning
   any section of the API is read-only.
 
 #### Not always needed
