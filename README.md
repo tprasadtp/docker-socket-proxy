@@ -125,23 +125,28 @@ You will possibly need to grant access to some of these API sections, which are
 not so extremely critical but can expose some information that your service
 does not need.
 
-- `BUILD`
-- `COMMIT`
-- `CONFIGS`
-- `CONTAINERS`
-- `DISTRIBUTION`
-- `EXEC`
-- `IMAGES`
-- `INFO`
-- `NETWORKS`
-- `NODES`
-- `PLUGINS`
-- `SERVICES`
-- `SESSION`
-- `SWARM`
-- `SYSTEM`
-- `TASKS`
-- `VOLUMES`
+| GET            | POST                  | DELETE              |
+|:---------------|:----------------------|:--------------------|
+| `BUILD`        | `ALLOW_RESTARTS`      | `NETWORKS_DELETE`   |
+| `COMMIT`       | `CONTAINERS_PRUNE`    | `CONTAINERS_DELETE` |
+| `CONFIGS`      | `CONTAINERS_CREATE`   | `IMAGES_DELETE`     |
+| `CONTAINERS`   | `CONTAINERS_RESIZE`   | `VOLUMES_DELETE`    |
+| `DISTRIBUTION` | `CONTAINERS_START`    |                     |
+| `EXEC`         | `CONTAINERS_UPDATE`   |                     |
+| `IMAGES`       | `CONTAINERS_RENAME`   |                     |
+| `INFO`         | `CONTAINERS_PAUSE`    |                     |
+| `NETWORKS`     | `CONTAINERS_UNPAUSE`  |                     |
+| `NODES`        | `CONTAINERS_ATTACH`   |                     |
+| `PLUGINS`      | `CONTAINERS_WAIT`     |                     |
+| `SERVICES`     | `CONTAINERS_EXEC`     |                     |
+| `SESSION`      | `VOLUMES_CREATE`      |                     |
+| `SWARM`        | `VOLUMES_PRUNE`       |                     |
+| `SYSTEM`       | `NETWORKS_CREATE`     |                     |
+| `TASKS`        | `NETWORKS_PRUNE`      |                     |
+| `VOLUMES`      | `NETWORKS_CONNECT`    |                     |
+|                | `NETWORKS_DISCONNECT` |                     |
+|                | `IMAGES_CREATE`       |                     |
+|                | `IMAGES_PRUNE`        |                     |
 
 ## Logging
 
