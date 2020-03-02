@@ -26,13 +26,6 @@
     [ "$status" -eq 0 ]
 }
 
-
-@test "Expect 200 /_ping" {
-  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/_ping"
-  [ "$status" -eq 0 ]
-  [ "$output" -eq 200 ]
-}
-
 @test "Expect OK /_ping" {
   run curl -s "http://${DOCKER_ENDPOINT}/_ping"
   [ "$status" -eq 0 ]
