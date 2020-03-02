@@ -7,3 +7,4 @@ hooks/
 *.txt
 Dockerfile
 .dockerignore
+test/

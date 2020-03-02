@@ -5,7 +5,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
 ![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
 
-> This fork provides ARM/ARM64 images.
+> This fork provides ARM/ARM64 images, and adds some tests.
 
 ## What?
 
