@@ -31,6 +31,8 @@ jobs:
           persist-credentials: false
       - name: Build
         run: make docker
+      - name: Install Bats
+        run: sudo apt-get -qq update; sudo apt-get -qq -y install bats
       - name: Tests
         run: make smoke-test
         env:
