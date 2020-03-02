@@ -166,7 +166,7 @@
   [ "$output" -eq 204 ] || [ "$output" == 409 ]
 }
 
-@test "POST /containers PAUSE (non-existing)" {
+@test "POST /containers PAUSE 404" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -176,12 +176,32 @@
   [ "$output" -eq 404 ]
 }
 
-@test "POST /containers UNPAUSE (non-existing)" {
+@test "POST /containers UNPAUSE 404" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
   "http://${DOCKER_ENDPOINT}/containers/no-such-container/unpause"
+  [ "$status" -eq 0 ]
+  [ "$output" -eq 404 ]
+}
+
+@test "DELETE /containers 204" {
+  run curl -s \
+  -w "%{http_code}" \
+  -o /dev/null \
+  -X DELETE \
+  "http://${DOCKER_ENDPOINT}/containers/pause?force=true"
+  [ "$status" -eq 0 ]
+  [ "$output" -eq 204 ]
+}
+
+@test "DELETE /containers 404" {
+  run curl -s \
+  -w "%{http_code}" \
+  -o /dev/null \
+  -X DELETE \
+  "http://${DOCKER_ENDPOINT}/containers/no-such-container?force=true"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }

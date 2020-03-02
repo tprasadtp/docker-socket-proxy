@@ -116,7 +116,7 @@ by default. Maximum caution when enabling these.
 
 - `AUTH`
 - `SECRETS`
-- `POST`: When disabled, only `GET` and `HEAD` operations are allowed, meaning
+- `POST` and `DELETE`: When disabled, only `GET` and `HEAD` operations are allowed, meaning
   any section of the API is read-only.
 
 #### Not always needed
@@ -127,9 +127,9 @@ does not need.
 
 | GET            | POST                  | DELETE              |
 |:---------------|:----------------------|:--------------------|
-| `BUILD`        | `ALLOW_RESTARTS`      | `NETWORKS_DELETE`   |
-| `COMMIT`       | `CONTAINERS_PRUNE`    | `CONTAINERS_DELETE` |
-| `CONFIGS`      | `CONTAINERS_CREATE`   | `IMAGES_DELETE`     |
+| `BUILD`        | `ALLOW_RESTARTS`      | `CONTAINERS_DELETE` |
+| `COMMIT`       | `CONTAINERS_PRUNE`    | `IMAGES_DELETE`     |
+| `CONFIGS`      | `CONTAINERS_CREATE`   | `NETWORKS_DELETE`   |
 | `CONTAINERS`   | `CONTAINERS_RESIZE`   | `VOLUMES_DELETE`    |
 | `DISTRIBUTION` | `CONTAINERS_START`    |                     |
 | `EXEC`         | `CONTAINERS_UPDATE`   |                     |
@@ -147,6 +147,8 @@ does not need.
 |                | `NETWORKS_DISCONNECT` |                     |
 |                | `IMAGES_CREATE`       |                     |
 |                | `IMAGES_PRUNE`        |                     |
+
+> To allow `DELETE` and `POST` methods, you must also to set `DELETE=1` and `POST=1`.
 
 ## Logging
 
