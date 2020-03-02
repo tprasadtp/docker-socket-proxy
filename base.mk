@@ -18,7 +18,7 @@ else
 	# If in detached head state this will give HEAD
 	BRANCH := $(strip $(shell git rev-parse --abbrev-ref HEAD | sed -r 's/[\/\*\#]+/-/g'))
 	# Get Tag
-	GIT_TAG := $(strip $(shell git describe --exact-match --contains HEAD 2> /dev/null))
+	GIT_TAG := $(strip $(shell git describe --exact-match --tags $(git log -n1 --pretty='%h') 2> /dev/null))
 	# Generate GITHUB_* vars
 	GITHUB_SHA := $(shell git log -1 --pretty=format:"%H")
 	GITHUB_SHA_SHORT := $(shell git log -1 --pretty=format:"%h")
@@ -188,7 +188,7 @@ debug-vars:
 	@echo "BRANCH: $(BRANCH)"
 	@echo "GITHUB_SHA: $(GITHUB_SHA)"
 	@echo "GITHUB_SHA_SHORT: $(GITHUB_SHA_SHORT)"
-	@echo "GIT_TREE_CLEAN: $(GIT_TREE_CLEAN)"
+	@echo "GIT_TREE_DIRTY: $(GIT_TREE_DIRTY)"
 	@echo "GIT_REF: $(GIT_REF)"
 	@echo "GIT_TAG: $(GIT_TAG)"
 	@echo "DOCKER_TAG : $(DOCKER_TAG)"
