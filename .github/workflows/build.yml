@@ -23,17 +23,20 @@ jobs:
       - name: Lint Dockerfiles
         run: |
           make docker-lint
-  # smoke-test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         persist-credentials: false
-  #     - name: Smoke Test
-  #       run: make smoke-test
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Build
+        run: make docker
+      - name: Tests
+        run: make smoke-test
+        env:
+          DOCKER_ENDPOINT: "127.0.0.1:12375"
   docker:
-    # needs: [ lint, smoke-test]
-    needs: lint
+    needs: [ lint, smoke-test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
