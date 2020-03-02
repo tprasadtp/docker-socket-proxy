@@ -50,14 +50,17 @@ ENV ALLOW_RESTARTS=0 \
     DOCKER_BACKEND=/var/run/docker.sock
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 
-# OCI
+#  OCI
 ARG IMAGE_TITLE
 ARG IMAGE_DESC
 ARG IMAGE_URL
 ARG IMAGE_SOURCE
 ARG IMAGE_VERSION
+ARG IMAGE_REVISION
 ARG IMAGE_LICENSES
 ARG IMAGE_DOCUMENTATION_URL
+ARG IMAGE_BUILD_HOST
+ARG IMAGE_BUILD_DATE
 ARG IMAGE_VENDOR="Prasad Tengse<tprasadtp@users.noreply.github.com>"
 
 # Custom Metadata
@@ -67,31 +70,31 @@ ARG IMAGE_BUILD_SYSTEM
 # Usually Available on builder
 ARG GITHUB_WORKFLOW
 ARG GITHUB_RUN_NUMBER
-ARG GITHUB_REF
-ARG GITHUB_SHA
+ARG GITHUB_SHA_SHORT
 ARG GITHUB_ACTOR
-
-# Upstream Metadata
-ARG UPSTREAM_URL
-ARG UPSTREAM_AUTHOR
+ARG GITHUB_REF
 
 # If the tree was dirty on build
 ARG GIT_TREE_DIRTY
+ARG GIT_REF
 
 LABEL org.opencontainers.image.vendor="${IMAGE_VENDOR}" \
       org.opencontainers.image.source="${IMAGE_SOURCE}" \
       org.opencontainers.image.url="${IMAGE_URL}" \
-      org.opencontainers.image.revision="${GITHUB_SHA}" \
+      org.opencontainers.image.revision="${IMAGE_REVISION}" \
       org.opencontainers.image.documentation="${IMAGE_DOCUMENTATION_URL}" \
       org.opencontainers.image.title="${IMAGE_TITLE}" \
       org.opencontainers.image.description="${IMAGE_DESC}" \
       org.opencontainers.image.version="${IMAGE_VERSION}" \
       org.opencontainers.image.licenses="${IMAGE_LICENSES}" \
       io.github.tprasadtp.build.system="${IMAGE_BUILD_SYSTEM}" \
+      io.github.tprasadtp.build.host="${IMAGE_BUILD_HOST}" \
+      io.github.tprasadtp.build.date="${IMAGE_BUILD_DATE}" \
       io.github.tprasadtp.actions.workflow="${GITHUB_WORKFLOW}" \
       io.github.tprasadtp.actions.build="${GITHUB_RUN_NUMBER}" \
-      io.github.tprasadtp.actions.ref="${GITHUB_REF}" \
       io.github.tprasadtp.actions.actor="${GITHUB_ACTOR}" \
-      io.github.tprasadtp.upstream.url="${UPSTREAM_URL}" \
-      io.github.tprasadtp.upstream.author="${UPSTREAM_AUTHOR}" \
-      io.github.tprasadtp.commit.dirty="${GIT_TREE_DIRTY}"
+      io.github.tprasadtp.actions.ref="${GITHUB_REF}" \
+      io.github.tprasadtp.git.ref="${GIT_REF}" \
+      io.github.tprasadtp.git.short-sha="${GITHUB_SHA_SHORT}" \
+      io.github.tprasadtp.git.dirty="${GIT_TREE_DIRTY}"
+

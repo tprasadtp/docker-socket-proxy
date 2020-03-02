@@ -11,6 +11,7 @@ IMAGE_LICENSES := "Apache-2.0"
 IMAGE_DOCUMENTATION_URL := "https://github.com/tprasadtp/docker-socket-proxy"
 
 # Custom Image Metadta
+IS_FORK := true
 UPSTREAM_URL := "https://github.com/Tecnativa/docker-socket-proxy"
 UPSTREAM_AUTHOR := "Tecnativa <github@tecnativa.com>"
 
