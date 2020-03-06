@@ -3,7 +3,7 @@
 # But AFTER defining all variables.
 
 # Docker build context directory. If not specified, WATCHTOWER_BASE/ is assumed!
-DOCKER_CONTEXT_DIR ?= $(WATCHTOWER_BASE)/
+DOCKER_CONTEXT_DIR ?= $(WATCHTOWER_BASE)
 
 # Full path, including filename for Dockerfile. If not specified, WATCHTOWER_BASE/Dockerfile is assumed
 DOCKERFILE_PATH ?= $(WATCHTOWER_BASE)/Dockerfile
@@ -157,7 +157,7 @@ docker: ## Build docker image.
     --label io.github.tprasadtp.upstream.present="$(UPSTREAM_PRESENT)" \
     $(UPSTREAM_ARGS) \
     --file $(DOCKER_CONTEXT_DIR)/Dockerfile \
-    $(DOCKER_CONTEXT_DIR)/
+    $(DOCKER_CONTEXT_DIR)
 	docker $(DOCKER_INSPECT_ARGS) $(firstword $(DOCKER_TAGS)) $(DOCKER_INSPECT_PARSER)
 
 .PHONY: docker-push
