@@ -10,5 +10,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[runtime.txt]
-insert_final_newline = false
+# Tab indentation
+[{Makefile,*.mk}]
+indent_style = tab
+indent_size = 4
