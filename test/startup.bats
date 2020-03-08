@@ -55,7 +55,7 @@
       -e VOLUMES_DELETE=1 \
       -e VOLUMES_PRUNE=0 \
       -e VOLUMES=1 \
-      ${DOCKER_USER}/${NAME}:${DOCKER_TAG}
+      ${DOCKER_TAG}
     [ "$status" -eq 0 ]
 }
 

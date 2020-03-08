@@ -1,3 +1,6 @@
+# Base
+WATCHTOWER_BASE := $(strip $(patsubst %/, %, $(dir $(realpath $(firstword $(MAKEFILE_LIST))))))
+
 # Set Help, default goal and WATCHTOWER_BASE
 include help.mk
 
@@ -22,7 +25,7 @@ include docker.mk
 smoke-test: ## Smoke Test
 	@echo -e "\033[92m➜ $@ \033[0m"
 	@echo -e "\033[92m✱ Startup\033[0m"
-	DOCKER_USER=$(DOCKER_USER) NAME=$(NAME) DOCKER_TAG=$(DOCKER_TAG) bats $(WATCHTOWER_BASE)/test/startup.bats
+	DOCKER_USER=$(DOCKER_USER) NAME=$(NAME) DOCKER_TAG=$(firstword $(DOCKER_TAGS)) bats $(WATCHTOWER_BASE)/test/startup.bats
 	@echo -e "\033[92m✱ Containers\033[0m"
 	bats $(WATCHTOWER_BASE)/test/containers.bats
 	@echo -e "\033[92m✱ Images\033[0m"
