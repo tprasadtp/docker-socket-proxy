@@ -37,8 +37,9 @@ jobs:
         run: make smoke-test
         env:
           DOCKER_ENDPOINT: "127.0.0.1:12375"
+# Build docker images
   docker:
-    needs: [ lint, smoke-test]
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -70,9 +71,6 @@ jobs:
           docker buildx use actions
           docker buildx inspect --bootstrap
 
-      - name: DEBUG-VARS
-        run: make debug-vars
-
       # - name: Docker Login to Registry (GitHub)
       #   run: echo "$DOCKER_PASSWORD" | docker login docker.pkg.github.com -u "$DOCKER_USERNAME" --password-stdin
       #   env:
@@ -85,19 +83,29 @@ jobs:
         env:
           DOCKER_USERNAME: tprasadtp
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        if: github.event_name	== 'push' || ( github.event_name == 'pull_request' &&  github.actor	== 'tprasadtp' )
+        if: github.event_name	== 'push'
 
-      - name: Docker Cross Build and Push
-        run: make docker-cross-push
-        if: github.event_name	== 'push' || ( github.event_name == 'pull_request' &&  github.actor	== 'tprasadtp' )
+      - name: Docker Build [With Push]
+        run: |
+            make debug-docker-vars
+            make docker
+        env:
+          BUILDX_PUSH: 1
+          BUILDX_ENABLE: 1
+        if: github.event_name == 'push'
 
       # No Push
       - name: Docker Build [Skip Push]
-        run: make docker-cross-build
-        if: github.actor	!= 'tprasadtp'
+        run: |
+            make debug-docker-vars
+            make docker
+        env:
+          BUILDX_PUSH: 0
+          BUILDX_ENABLE: 1
+        if: github.event_name == 'pull_request'
 
       - name: Docker Cleanup
         run: |
           docker logout || true
           rm -f ${HOME}/.docker/config.json
-        if: github.event_name	== 'push' || ( github.event_name == 'pull_request' &&  github.actor	== 'tprasadtp' )
+        if: github.event_name	== 'push'

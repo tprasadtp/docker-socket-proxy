@@ -3,8 +3,9 @@ on:
     branches:
       - master
     paths:
-      - ".github/workflows/labels.yml"
+      # Labels Only
       - ".github/labels.toml"
+      - ".github/workflows/labels.yml"
 name: labels
 jobs:
   labels:

@@ -5,7 +5,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
 ![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
 
-> This fork provides ARM/ARM64 images, and adds some tests.
+> This fork provides ARM/ARM64 images, provider finer control over `POST` and `DELETE` endpoints and adds some tests.
 
 > Checkout [v2 Beta](https://github.com/tprasadtp/docker-socket-proxy/tree/finer-control-over-endpoints) which provides more fine grained control over `POST` and `DELETE` API endpoints.
 > You can use docker image `tprasadtp/docker-socket-proxy:finer-control-over-endpoints` or `tprasadtp/docker-socket-proxy:v2.0.0-beta`
@@ -121,7 +121,7 @@ by default. Maximum caution when enabling these.
 
 - `AUTH`
 - `SECRETS`
-- `POST`: When disabled, only `GET` and `HEAD` operations are allowed, meaning
+- `POST` and `DELETE`: When disabled (default), only `GET` and `HEAD` operations are allowed, meaning
   any section of the API is read-only.
 
 #### Not always needed
@@ -130,23 +130,30 @@ You will possibly need to grant access to some of these API sections, which are
 not so extremely critical but can expose some information that your service
 does not need.
 
-- `BUILD`
-- `COMMIT`
-- `CONFIGS`
-- `CONTAINERS`
-- `DISTRIBUTION`
-- `EXEC`
-- `IMAGES`
-- `INFO`
-- `NETWORKS`
-- `NODES`
-- `PLUGINS`
-- `SERVICES`
-- `SESSION`
-- `SWARM`
-- `SYSTEM`
-- `TASKS`
-- `VOLUMES`
+| GET            | POST                  | DELETE              |
+|:---------------|:----------------------|:--------------------|
+| `BUILD`        | `ALLOW_RESTARTS`      | `CONTAINERS_DELETE` |
+| `COMMIT`       | `CONTAINERS_PRUNE`    | `IMAGES_DELETE`     |
+| `CONFIGS`      | `CONTAINERS_CREATE`   | `NETWORKS_DELETE`   |
+| `CONTAINERS`   | `CONTAINERS_RESIZE`   | `VOLUMES_DELETE`    |
+| `DISTRIBUTION` | `CONTAINERS_START`    |                     |
+| `EXEC`         | `CONTAINERS_UPDATE`   |                     |
+| `IMAGES`       | `CONTAINERS_RENAME`   |                     |
+| `INFO`         | `CONTAINERS_PAUSE`    |                     |
+| `NETWORKS`     | `CONTAINERS_UNPAUSE`  |                     |
+| `NODES`        | `CONTAINERS_ATTACH`   |                     |
+| `PLUGINS`      | `CONTAINERS_WAIT`     |                     |
+| `SERVICES`     | `CONTAINERS_EXEC`     |                     |
+| `SESSION`      | `VOLUMES_CREATE`      |                     |
+| `SWARM`        | `VOLUMES_PRUNE`       |                     |
+| `SYSTEM`       | `NETWORKS_CREATE`     |                     |
+| `TASKS`        | `NETWORKS_PRUNE`      |                     |
+| `VOLUMES`      | `NETWORKS_CONNECT`    |                     |
+|                | `NETWORKS_DISCONNECT` |                     |
+|                | `IMAGES_CREATE`       |                     |
+|                | `IMAGES_PRUNE`        |                     |
+
+> To allow `DELETE` and `POST` methods, you must also to set `DELETE=1` and `POST=1`.
 
 ## Logging
 
