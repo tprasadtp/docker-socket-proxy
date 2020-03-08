@@ -12,7 +12,7 @@ IMAGE_DESC              := This is a security-enhanced proxy for the Docker Sock
 IMAGE_URL               := https://hub.docker.com/r/tprasadtp/docker-socket-proxy
 IMAGE_SOURCE            := https://github.com/tprasadtp/docker-socket-proxy
 IMAGE_LICENSES          := Apache-2.0
-IMAGE_DOCUMENTATION_URL := https://github.com/tprasadtp/docker-socket-proxy
+IMAGE_DOCUMENTATION     := https://github.com/tprasadtp/docker-socket-proxy
 
 # Custom Image Metadta
 UPSTREAM_PRESENT := true
