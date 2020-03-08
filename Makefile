@@ -7,10 +7,10 @@ include help.mk
 NAME  := docker-socket-proxy
 
 # OCI Metadata
-IMAGE_TITLE             := Docker Socket Proxy"
-IMAGE_DESC              := This is a security-enhanced proxy for the Docker Socket"
-IMAGE_URL               := https://hub.docker.com/r/tprasadtp/docker-socket-proxy"
-IMAGE_SOURCE            := https://github.com/tprasadtp/docker-socket-proxy"
+IMAGE_TITLE             := Docker Socket Proxy
+IMAGE_DESC              := This is a security-enhanced proxy for the Docker Socket
+IMAGE_URL               := https://hub.docker.com/r/tprasadtp/docker-socket-proxy
+IMAGE_SOURCE            := https://github.com/tprasadtp/docker-socket-proxy
 IMAGE_LICENSES          := Apache-2.0
 IMAGE_DOCUMENTATION_URL := https://github.com/tprasadtp/docker-socket-proxy
 
