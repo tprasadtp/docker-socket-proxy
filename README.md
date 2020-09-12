@@ -11,9 +11,8 @@
 
 GitHub Registry images are preferred. Though there are no plans to discontinue updating images on DockerHub, its advised that you switch to GitHub registry soon.
 
-        ghcr.io/tprasadtp/docker-socket-proxy
-        docker.io/tprasadtp/docker-socket-proxy
-
+    ghcr.io/tprasadtp/docker-socket-proxy
+    docker.io/tprasadtp/docker-socket-proxy
 
 ## What?
 

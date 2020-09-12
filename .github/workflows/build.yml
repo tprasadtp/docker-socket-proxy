@@ -74,7 +74,7 @@ jobs:
       - name: Docker Login to GitHub Registry
         run: echo "$DOCKER_PASSWORD" | docker login ghcr.io -u tprasadtp --password-stdin
         env:
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_PASSWORD: ${{ secrets.GHCR_TOKEN }}
         if: github.event_name	== 'push'
 
       - name: Docker Login to DockerHub
