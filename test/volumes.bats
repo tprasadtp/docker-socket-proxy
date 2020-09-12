@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-@test "GET /volumes VOLUME [200]" {
+@test "GET /volumes VOLUME (Check with existing  volume)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/volumes"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
@@ -18,13 +18,13 @@
   [ "$output" -eq 201 ] || [ "$output" -eq 409 ]
 }
 
-@test "GET /networks INSPECT [200]" {
+@test "GET /networks INSPECT (Check with existing  volume)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/volumes/delete-this-volume"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
 
-@test "GET /volumes INSPECT [404]" {
+@test "GET /volumes INSPECT (Check with non-existing  volume)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/volumes/no-such-volume"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
@@ -39,7 +39,7 @@
   [ "$output" -eq 204 ]
 }
 
-@test "DELETE /volumes RM [404]" {
+@test "DELETE /volumes RM (Check with non-existing  volume)" {
   run curl -s -o /dev/null \
     -X DELETE \
     -w "%{http_code}" \

@@ -1,17 +1,17 @@
 #!/usr/bin/env bats
 
-@test "GET /containers [200]" {
+@test "GET /containers, Expect (Check with existing container)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/containers/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
 
-@test "FIXTURE Pull Pause container" {
+@test "FIXTURE >> Pull Pause container" {
   run docker pull gcr.io/google_containers/pause:latest
   [ "$status" -eq 0 ]
 }
 
-@test "POST /containers CREATE [201]" {
+@test "POST /containers CREATE, Expect [201]" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -23,7 +23,7 @@
   [ "$output" -eq 201 ]
 }
 
-@test "GET /containers INSPECT [200]" {
+@test "GET /containers INSPECT (Check with existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -32,7 +32,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers INSPECT [404]" {
+@test "GET /containers INSPECT (Non Existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -41,7 +41,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "GET /containers PS [200]" {
+@test "GET /containers PS (Check with existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -50,7 +50,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers PS [404]" {
+@test "GET /containers PS (Check with non-existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -59,7 +59,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "GET /containers DIFF [200]" {
+@test "GET /containers DIFF (Check with existing container)" {
   run curl -s \
   -o /dev/null \
   -w "%{http_code}" \
@@ -68,7 +68,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers DIFF [404]" {
+@test "GET /containers DIFF (Check with non-existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -78,7 +78,7 @@
 }
 
 # Stats
-@test "GET /containers STATS [200]" {
+@test "GET /containers STATS (Check with existing container)" {
   run curl -s \
   -o /dev/null \
   -w "%{http_code}" \
@@ -87,7 +87,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers STATS [404]" {
+@test "GET /containers STATS (Check with non-existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -106,7 +106,7 @@
   [ "$output" -eq 204 ] || [ "$output" -eq 304 ] || [ "$output" -eq 409 ]
 }
 
-@test "POST /containers START [404]" {
+@test "POST /containers START (Check with non-existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -126,7 +126,7 @@
   [ "$output" -eq 204 ] || [ "$output" -eq 304 ]
 }
 
-@test "POST /containers STOP [404]" {
+@test "POST /containers STOP (Check with non-existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -146,7 +146,7 @@
   [ "$output" -eq 204 ]
 }
 
-@test "POST /containers RESTART [404]" {
+@test "POST /containers RESTART (Check with non-existing container)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \

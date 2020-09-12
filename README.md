@@ -2,9 +2,18 @@
 
 [![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Abuild)
 [![labels](https://github.com/tprasadtp/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Alabels)
-[![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy?logo=docker&logoColor=white&label=pulls)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
+![GitHub](https://img.shields.io/github/license/tprasadtp/docker-socket-proxy)
 
-> This fork provides ARM/ARM64 images, provider finer control over `POST` and `DELETE` endpoints and adds some tests.
+> This fork provides ARM/ARM64 images, provides much more granular control over API endpoints and adds some tests.
+
+## Images
+
+GitHub Registry images are preferred. Though there are no plans to discontinue updating images on DockerHub, its advised that you switch to GitHub registry soon.
+
+        ghcr.io/tprasadtp/docker-socket-proxy
+        docker.io/tprasadtp/docker-socket-proxy
+
 
 ## What?
 
@@ -41,7 +50,7 @@ requests that should never happen.
 
 ## Usage
 
-1.  Run the API proxy (`--privileged` flag is required here because it connects with the docker socket, which is a privileged connection in some SELinux/AppArmor contexts and would get locked otherwise):
+1. Run the API proxy (`--privileged` flag is required here because it connects with the docker socket, which is a privileged connection in some SELinux/AppArmor contexts and would get locked otherwise):
 
         $ docker container run \
             -d --privileged \
@@ -50,11 +59,11 @@ requests that should never happen.
             -p 127.0.0.1:2375:2375 \
             tecnativa/docker-socket-proxy
 
-2.  Connect your local docker client to that socket:
+1. Connect your local docker client to that socket:
 
-        $ export DOCKER_HOST=tcp://localhost
+        export DOCKER_HOST=tcp://localhost
 
-3.  You can see the docker version:
+1. You can see the docker version:
 
         $ docker version
         Client:
@@ -74,7 +83,7 @@ requests that should never happen.
          OS/Arch:      linux/amd64
          Experimental: false
 
-4.  You cannot see running containers:
+1. You cannot see running containers:
 
         $ docker container ls
         Error response from daemon: <html><body><h1>403 Forbidden</h1>
@@ -152,8 +161,7 @@ does not need.
 ## Logging
 
 You can set the logging level or severity level of the messages to be logged with the
- environment variable `LOG_LEVEL`. Defaul value is info. Possible values are: debug,
- info, notice, warning, err, crit, alert and emerg.
+ environment variable `LOG_LEVEL`. Default value is info.
 
 ## Supported API versions
 

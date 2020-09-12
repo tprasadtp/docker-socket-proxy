@@ -71,17 +71,15 @@ jobs:
           docker buildx use actions
           docker buildx inspect --bootstrap
 
-      # - name: Docker Login to Registry (GitHub)
-      #   run: echo "$DOCKER_PASSWORD" | docker login docker.pkg.github.com -u "$DOCKER_USERNAME" --password-stdin
-      #   env:
-      #     DOCKER_USERNAME: tprasadtp
-      #     DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      #   if: github.event_name	== 'push' || ( github.event_name == 'pull' &&  github.actor	== 'tprasadtp' )
-
-      - name: Docker Login to Registry (DockerHub)
-        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - name: Docker Login to GitHub Registry
+        run: echo "$DOCKER_PASSWORD" | docker login ghcr.io -u tprasadtp --password-stdin
         env:
-          DOCKER_USERNAME: tprasadtp
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event_name	== 'push'
+
+      - name: Docker Login to DockerHub
+        run: echo "$DOCKER_PASSWORD" | docker login -u tprasadtp --password-stdin
+        env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         if: github.event_name	== 'push'
 
