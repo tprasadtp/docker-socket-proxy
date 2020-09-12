@@ -1,18 +1,18 @@
 #!/usr/bin/env bats
 
-@test "GET /networks NETWORKS [200]" {
+@test "GET /networks NETWORKS (Check with existing  network)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/networks"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
 
-@test "GET /networks INSPECT [200]" {
+@test "GET /networks INSPECT (Check with existing  network)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/networks/none"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
 
-@test "GET /networks INSPECT [404]" {
+@test "GET /networks INSPECT (Check with non-existing  network)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/networks/no-such-network"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
@@ -43,7 +43,7 @@
   [ "$output" -eq 403 ]
 }
 
-@test "POST /networks CONNECT [200]" {
+@test "POST /networks CONNECT (Check with existing  network)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -55,7 +55,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "POST /networks DISCONNECT [200]" {
+@test "POST /networks DISCONNECT (Check with existing  network)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \

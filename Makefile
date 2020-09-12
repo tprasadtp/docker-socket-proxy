@@ -1,10 +1,15 @@
-# Base
 WATCHTOWER_BASE := $(strip $(patsubst %/, %, $(dir $(realpath $(firstword $(MAKEFILE_LIST))))))
 
 # Set Help, default goal and WATCHTOWER_BASE
-include help.mk
+include makefiles/help.mk
 
-NAME  := docker-socket-proxy
+# Name of the project and docker image
+# This should hold same image names across all registries.
+# This is a requirment.
+IMAGE_NAME  := docker-socket-proxy
+
+# Relative to
+DOCKER_CONTEXT_DIR := $(WATCHTOWER_BASE)
 
 # OCI Metadata
 IMAGE_TITLE             := Docker Socket Proxy
@@ -19,13 +24,17 @@ UPSTREAM_PRESENT := true
 UPSTREAM_URL     := https://github.com/Tecnativa/docker-socket-proxy
 UPSTREAM_AUTHOR  := Tecnativa
 
-include docker.mk
+# Enable GH
+DOCKER_REGISTRY_NAMESPACES := docker.io/tprasadtp ghcr.io/tprasadtp
+
+
+include makefiles/docker.mk
 
 .PHONY: smoke-test
 smoke-test: ## Smoke Test
 	@echo -e "\033[92m➜ $@ \033[0m"
 	@echo -e "\033[92m✱ Startup\033[0m"
-	DOCKER_USER=$(DOCKER_USER) NAME=$(NAME) DOCKER_TAG=$(firstword $(DOCKER_TAGS)) bats $(WATCHTOWER_BASE)/test/startup.bats
+	DOCKER_TAG=$(firstword $(DOCKER_TAGS)) bats $(WATCHTOWER_BASE)/test/startup.bats
 	@echo -e "\033[92m✱ Containers\033[0m"
 	bats $(WATCHTOWER_BASE)/test/containers.bats
 	@echo -e "\033[92m✱ Images\033[0m"

@@ -1,12 +1,12 @@
 #!/usr/bin/env bats
 
-@test "GET /images IMAGES [200]" {
+@test "GET /images IMAGES (Check with existing  image)" {
   run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/images/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
 
-@test "GET /images INSPECT [200]" {
+@test "GET /images INSPECT (Check with existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -15,7 +15,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /containers INSPECT [404]" {
+@test "GET /containers INSPECT (Check with non-existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -24,7 +24,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "GET /images HISTORY [200]" {
+@test "GET /images HISTORY (Check with existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -33,7 +33,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "GET /images HISTORY [404]" {
+@test "GET /images HISTORY (Check with non-existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -42,7 +42,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "GET /images HISTORY [200]" {
+@test "GET /images HISTORY (Check with existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -63,7 +63,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "POST /images PULL (via create API) [404]" {
+@test "POST /images PULL (via create API) (Check with non-existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -83,7 +83,7 @@
   [ "$output" -eq 201 ]
 }
 
-@test "POST /images TAG [404]" {
+@test "POST /images TAG (Check with non-existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -93,7 +93,7 @@
   [ "$output" -eq 404 ]
 }
 
-@test "DELETE /images TAG [200]" {
+@test "DELETE /images TAG (Check with existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
@@ -103,7 +103,7 @@
   [ "$output" -eq 200 ]
 }
 
-@test "DELETE /images TAG [404]" {
+@test "DELETE /images TAG (Check with non-existing  image)" {
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
