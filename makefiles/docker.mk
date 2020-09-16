@@ -101,7 +101,7 @@ else
 endif
 
 # Add GIT_SHA_SHORT to docker tags
-DOCKER_TAGS += $(foreach __REG,$(DOCKER_IMAGES),$(__REG):$(GIT_SHA_SHORT))
+# DOCKER_TAGS += $(foreach __REG,$(DOCKER_IMAGES),$(__REG):$(GIT_SHA_SHORT))
 
 # Check if we have buildx enabled
 ifeq ($(BUILDX_ENABLE),1)
