@@ -8,3 +8,4 @@ hooks/
 Dockerfile
 .dockerignore
 test/
+makefiles/

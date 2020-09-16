@@ -83,7 +83,7 @@ jobs:
 
       - name: Docker Build [With Push]
         run: |
-            make debug-docker-vars
+            make docker-show-vars
             make docker
         env:
           BUILDX_PUSH: 1
@@ -93,7 +93,7 @@ jobs:
       # No Push
       - name: Docker Build [Skip Push]
         run: |
-            make debug-docker-vars
+            make docker-show-vars
             make docker
         env:
           BUILDX_PUSH: 0

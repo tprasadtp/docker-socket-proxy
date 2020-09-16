@@ -186,13 +186,13 @@ define print_docker_tags
 endef
 
 
-.PHONY: show-docker-tags
-show-docker-tags: docker-check-variables ## Show Docker Image Tags
+.PHONY: docker-show-tags
+docker-show-tags: docker-check-variables ## Show Docker Image Tags
 	@echo "------------- Docker Tags ---------------------"
 	$(call print_docker_tags)
 
-.PHONY: show-docker-vars
-show-docker-vars:
+.PHONY: docker-show-vars
+docker-show-vars:
 	@echo "------------  DOCKER VARIABLES ---------------"
 	@echo "DOCKER_IMAGES        : $(DOCKER_IMAGES)"
 	@echo "--------------  DOCKER TAGS ------------------"
