@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 @test "GET /images IMAGES (Check with existing  image)" {
-  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/images/json"
+  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_PROXY_ENDPOINT}/images/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -10,7 +10,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:latest/json"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:latest/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -19,7 +19,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:no-such-tag/json"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:no-such-tag/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -28,7 +28,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:latest/history"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:latest/history"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -37,7 +37,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:no-such-tag/history"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:no-such-tag/history"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -46,7 +46,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:latest/history"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:latest/history"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -58,7 +58,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/images/create?fromImage=gcr.io/google_containers/pause&tag=latest"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/create?fromImage=gcr.io/google_containers/pause&tag=latest"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -68,7 +68,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/images/create?fromImage=gcr.io/google_containers/pause&tag=no-such-tag"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/create?fromImage=gcr.io/google_containers/pause&tag=no-such-tag"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -78,7 +78,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:latest/tag?repo=mika&tag=tauriel"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:latest/tag?repo=mika&tag=tauriel"
   [ "$status" -eq 0 ]
   [ "$output" -eq 201 ]
 }
@@ -88,7 +88,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:no-such-tag/tag?repo=mika&tag=tauriel"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:no-such-tag/tag?repo=mika&tag=tauriel"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -98,7 +98,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X DELETE \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:latest"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:latest"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -108,7 +108,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X DELETE \
-  "http://${DOCKER_ENDPOINT}/images/gcr.io/google_containers/pause:latest"
+  "http://${DOCKER_PROXY_ENDPOINT}/images/gcr.io/google_containers/pause:latest"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }

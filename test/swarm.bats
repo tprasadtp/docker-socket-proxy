@@ -4,7 +4,7 @@
   run curl -s \
     -o /dev/null \
     -w "%{http_code}" \
-    "http://${DOCKER_ENDPOINT}/swarm"
+    "http://${DOCKER_PROXY_ENDPOINT}/swarm"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ] || [ "$output" -eq 503 ] || [ "$output" -eq 403 ]
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 @test "GET /containers, Expect (Check with existing container)" {
-  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/containers/json"
+  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_PROXY_ENDPOINT}/containers/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -18,7 +18,7 @@
   -H "Content-Type: application/json" \
   -X POST \
   -d '{"Image": "gcr.io/google_containers/pause:latest", "NetworkDisabled": true}' \
-  "http://${DOCKER_ENDPOINT}/containers/create?name=pause"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/create?name=pause"
   [ "$status" -eq 0 ]
   [ "$output" -eq 201 ]
 }
@@ -27,7 +27,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/containers/pause/json"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/pause/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -36,7 +36,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/json"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/json"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -45,7 +45,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/containers/dockerproxy/top"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/dockerproxy/top"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -54,7 +54,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/top"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/top"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -63,7 +63,7 @@
   run curl -s \
   -o /dev/null \
   -w "%{http_code}" \
-  "http://${DOCKER_ENDPOINT}/containers/dockerproxy/changes"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/dockerproxy/changes"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -72,7 +72,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/changes"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/changes"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -82,7 +82,7 @@
   run curl -s \
   -o /dev/null \
   -w "%{http_code}" \
-  "http://${DOCKER_ENDPOINT}/containers/dockerproxy/stats?stream=false"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/dockerproxy/stats?stream=false"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -91,7 +91,7 @@
   run curl -s \
   -w "%{http_code}" \
   -o /dev/null \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/stats?stream=false"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/stats?stream=false"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -101,7 +101,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/pause/start"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/pause/start"
   [ "$status" -eq 0 ]
   [ "$output" -eq 204 ] || [ "$output" -eq 304 ] || [ "$output" -eq 409 ]
 }
@@ -111,7 +111,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/start"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/start"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -121,7 +121,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/pause/stop"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/pause/stop"
   [ "$status" -eq 0 ]
   [ "$output" -eq 204 ] || [ "$output" -eq 304 ]
 }
@@ -131,7 +131,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/stop"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/stop"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -141,7 +141,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/pause/restart"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/pause/restart"
   [ "$status" -eq 0 ]
   [ "$output" -eq 204 ]
 }
@@ -151,7 +151,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/restart"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/restart"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -161,7 +161,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/pause/pause"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/pause/pause"
   [ "$status" -eq 0 ]
   [ "$output" -eq 204 ] || [ "$output" == 409 ]
 }
@@ -171,7 +171,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/pause"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/pause"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -181,7 +181,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X POST \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container/unpause"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container/unpause"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -191,7 +191,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X DELETE \
-  "http://${DOCKER_ENDPOINT}/containers/pause?force=true"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/pause?force=true"
   [ "$status" -eq 0 ]
   [ "$output" -eq 204 ]
 }
@@ -201,7 +201,7 @@
   -w "%{http_code}" \
   -o /dev/null \
   -X DELETE \
-  "http://${DOCKER_ENDPOINT}/containers/no-such-container?force=true"
+  "http://${DOCKER_PROXY_ENDPOINT}/containers/no-such-container?force=true"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }

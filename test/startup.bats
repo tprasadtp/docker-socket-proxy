@@ -9,7 +9,7 @@
   	run docker run -d --rm \
       --name dockerproxy \
       -v /var/run/docker.sock:/var/run/docker.sock \
-      -p "${DOCKER_ENDPOINT}":2375 \
+      -p "${DOCKER_PROXY_ENDPOINT}":2375 \
       -e AUTH=0 \
       -e BUILD=1 \
       -e COMMIT=1 \
@@ -65,7 +65,7 @@
 }
 
 @test "Expect OK /_ping" {
-  run curl -s "http://${DOCKER_ENDPOINT}/_ping"
+  run curl -s "http://${DOCKER_PROXY_ENDPOINT}/_ping"
   [ "$status" -eq 0 ]
   [ "$output" == "OK" ]
 }

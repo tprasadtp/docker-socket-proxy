@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 @test "GET /volumes VOLUME (Check with existing  volume)" {
-  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/volumes"
+  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_PROXY_ENDPOINT}/volumes"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
@@ -13,19 +13,19 @@
   -H "Content-Type: application/json" \
   -X POST \
   -d '{"Name": "delete-this-volume", "Driver": "local"}' \
-  "http://${DOCKER_ENDPOINT}/volumes/create"
+  "http://${DOCKER_PROXY_ENDPOINT}/volumes/create"
   [ "$status" -eq 0 ]
   [ "$output" -eq 201 ] || [ "$output" -eq 409 ]
 }
 
 @test "GET /networks INSPECT (Check with existing  volume)" {
-  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/volumes/delete-this-volume"
+  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_PROXY_ENDPOINT}/volumes/delete-this-volume"
   [ "$status" -eq 0 ]
   [ "$output" -eq 200 ]
 }
 
 @test "GET /volumes INSPECT (Check with non-existing  volume)" {
-  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_ENDPOINT}/volumes/no-such-volume"
+  run curl -s -o /dev/null -w "%{http_code}" "http://${DOCKER_PROXY_ENDPOINT}/volumes/no-such-volume"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }
@@ -34,7 +34,7 @@
   run curl -s -o /dev/null \
     -X DELETE \
     -w "%{http_code}" \
-    "http://${DOCKER_ENDPOINT}/volumes/delete-this-volume"
+    "http://${DOCKER_PROXY_ENDPOINT}/volumes/delete-this-volume"
   [ "$status" -eq 0 ]
   [ "$output" -eq 204 ]
 }
@@ -43,7 +43,7 @@
   run curl -s -o /dev/null \
     -X DELETE \
     -w "%{http_code}" \
-    "http://${DOCKER_ENDPOINT}/volumes/no-such-volume"
+    "http://${DOCKER_PROXY_ENDPOINT}/volumes/no-such-volume"
   [ "$status" -eq 0 ]
   [ "$output" -eq 404 ]
 }

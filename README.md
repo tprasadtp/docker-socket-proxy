@@ -2,6 +2,7 @@
 
 [![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Abuild)
 [![labels](https://github.com/tprasadtp/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Alabels)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tprasadtp/docker-socket-proxy?logo=docker&logoColor=white)][Github-Registry]
 [![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy?logo=docker&logoColor=white&label=pulls)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
 ![GitHub](https://img.shields.io/github/license/tprasadtp/docker-socket-proxy)
 
@@ -9,7 +10,7 @@
 
 ## Images
 
-GitHub Registry images are preferred. Though there are no plans to discontinue updating images on DockerHub, its advised that you switch to GitHub registry soon.
+[GitHub-Registry][] images are preferred. Though there are no plans to discontinue updating images on [DockerHub][], its advised that you switch to GitHub registry soon.
 
     ghcr.io/tprasadtp/docker-socket-proxy
     docker.io/tprasadtp/docker-socket-proxy
@@ -56,7 +57,7 @@ requests that should never happen.
             --name dockerproxy \
             -v /var/run/docker.sock:/var/run/docker.sock \
             -p 127.0.0.1:2375:2375 \
-            tecnativa/docker-socket-proxy
+            ghcr.io/tprasadtp/docker-socket-proxy
 
 1. Connect your local docker client to that socket:
 
@@ -160,15 +161,7 @@ does not need.
 ## Logging
 
 You can set the logging level or severity level of the messages to be logged with the
- environment variable `LOG_LEVEL`. Default value is info.
-
-## Supported API versions
-
-- [1.27](https://docs.docker.com/engine/api/v1.27/)
-- [1.28](https://docs.docker.com/engine/api/v1.28/)
-- [1.29](https://docs.docker.com/engine/api/v1.29/)
-- [1.30](https://docs.docker.com/engine/api/v1.30/)
-- [1.37](https://docs.docker.com/engine/api/v1.37/)
+environment variable `LOG_LEVEL`. Default value is info.
 
 ## Feedback
 
@@ -176,4 +169,6 @@ Please send any feedback (issues, questions) to the [issue tracker][].
 
 [Alpine]: https://alpinelinux.org/
 [HAProxy]: http://www.haproxy.org/
-[issue tracker]: https://github.com/Tecnativa/docker-socket-proxy/issues
+[issue tracker]: https://github.com/tprasadtp/docker-socket-proxy/issues
+[Github-Registry]: https://github.com/users/tprasadtp/packages/container/package/docker-socket-proxy
+[DockerHub]: https://hub.docker.com/r/tprasadtp/docker-socket-proxy
