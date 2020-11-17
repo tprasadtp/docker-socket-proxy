@@ -1,4 +1,4 @@
-FROM haproxy:2.3.0-alpine
+FROM haproxy:2.3.1-alpine
 
 EXPOSE 2375
 ENV ALLOW_RESTARTS=0 \
