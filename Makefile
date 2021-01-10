@@ -1,21 +1,21 @@
-#WATCHTOWER_BASE := $(strip $(patsubst %/, %, $(dir $(realpath $(firstword $(MAKEFILE_LIST))))))
+SHELL := /bin/bash
+NAME  := protonvpn-docker
+export REPO_ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-# Set Help, default goal and WATCHTOWER_BASE
-include makefiles/help.mk
-
-
-# docker image
-DOCKER_IMAGES          := ghcr.io/tprasadtp/docker-socket-proxy tprasadtp/docker-socket-proxy
+# Define image names
+DOCKER_IMAGES           := ghcr.io/tprasadtp/protonvpn tprasadtp/protonvpn
 
 # OCI Metadata
 IMAGE_TITLE             := Docker Socket Proxy
 IMAGE_DESC              := This is a security-enhanced proxy for the Docker Socket
 IMAGE_URL               := https://hub.docker.com/r/tprasadtp/docker-socket-proxy
 IMAGE_SOURCE            := https://github.com/tprasadtp/docker-socket-proxy
-IMAGE_LICENSES          := Apache-2.0
 IMAGE_DOCUMENTATION     := https://github.com/tprasadtp/docker-socket-proxy
+IMAGE_LICENSES          := Apache-2.0
 
-include makefiles/docker.mk
+# Include makefiles
+include $(REPO_ROOT)/makefiles/base.mk
+include $(REPO_ROOT)/makefiles/docker.mk
 
 # Define Endpoints for smoke test if not defined already
 ifeq ($(DOCKER_PROXY_ENDPOINT),)

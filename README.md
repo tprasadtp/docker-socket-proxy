@@ -1,19 +1,18 @@
 # Docker Socket Proxy
 
-[![build](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Abuild)
-[![labels](https://github.com/tprasadtp/docker-socket-proxy/workflows/labels/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?query=workflow%3Alabels)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tprasadtp/docker-socket-proxy?logo=docker&logoColor=white)][Github-Registry]
-[![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy?logo=docker&logoColor=white&label=pulls)](https://hub.docker.com/r/tprasadtp/docker-socket-proxy/)
-![GitHub](https://img.shields.io/github/license/tprasadtp/docker-socket-proxy)
+[![actions](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?workflow=build)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tprasadtp/docker-socket-proxy?label=version&logo=github&sort=semver)](https://github.com/tprasadtp/docker-socket-proxy/releases/latest)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy?color=0db7ed&label=hub.docker.com&logo=docker&logoColor=0db7ed)][dockerhub]
+[![Image Size](https://img.shields.io/docker/image-size/tprasadtp/docker-socket-proxy/latest?color=0db7ed&logo=docker&logoColor=0db7ed)][ghcr]
+[![dependabot](https://api.dependabot.com/badges/status?host=github&repo=tprasadtp/docker-socket-proxy)](https://app.dependabot.com)
+![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
+
+Images are published on,
+
+- [DockerHub][dockerhub]
+- [GitHub Package registry][ghcr]
 
 > This fork provides ARM/ARM64 images, provides much more granular control over API endpoints and adds some tests.
-
-## Images
-
-[GitHub-Registry][] images are preferred. Though there are no plans to discontinue updating images on [DockerHub][], its advised that you switch to GitHub registry soon.
-
-    ghcr.io/tprasadtp/docker-socket-proxy
-    docker.io/tprasadtp/docker-socket-proxy
 
 ## What?
 
@@ -170,5 +169,5 @@ Please send any feedback (issues, questions) to the [issue tracker][].
 [Alpine]: https://alpinelinux.org/
 [HAProxy]: http://www.haproxy.org/
 [issue tracker]: https://github.com/tprasadtp/docker-socket-proxy/issues
-[Github-Registry]: https://github.com/users/tprasadtp/packages/container/package/docker-socket-proxy
-[DockerHub]: https://hub.docker.com/r/tprasadtp/docker-socket-proxy
+[ghcr]: https://github.com/users/tprasadtp/packages/container/package/docker-socket-proxy
+[dockerhub]: https://hub.docker.com/r/tprasadtp/docker-socket-proxy

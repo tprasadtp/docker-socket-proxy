@@ -1,14 +1,13 @@
-# BEGIN-DOCKER-TEMPLATE
-# TEMPLATE_VERSION: 2.0.1
+# This file is managed by diana.
 
-# Docker Makefile. This sould be used along with help.mk
+# Docker Makefile. This sould be used along with base.mk
 # But **AFTER** defining all variables.
 
 # Docker build context directory. If not specified, . is assumed!
 DOCKER_CONTEXT_DIR ?= .
 
 # Full path, including filename for Dockerfile. If not specified, ./Dockerfile is assumed
-DOCKERFILE_PATH  ?= ./Dockerfile
+DOCKERFILE_PATH    ?= ./Dockerfile
 
 # Extra Arguments, useful to pass --build-arg.
 # DOCKER_EXTRA_ARGS
@@ -21,87 +20,56 @@ BUILDX_ENABLE    ?= 0
 BUILDX_PUSH      ?= 0
 BUILDX_PLATFORMS ?= linux/amd64,linux/arm64,linux/arm/v7
 
-# Builder metadata
-IMAGE_VENDOR     ?= Prasad Tengse <tprasadtp@users.noreply.github.com>
+# Latest tag settings
+# This toggles whether to add tag latest to all commits of default branch
+# Default is disabled. By default we only tag latest if VERSION is equals
+# to latest semver tag! Set this to true ONLY if repackaging from upstream
+# and updates are usually handled by dependabot or bots.
+IMAGE_ALWAYS_TAG_LATEST ?= false
 
 # We need to quote this to avoid issues with command
-IMAGE_BUILD_DATE := $(shell date --rfc-3339=seconds)
+IMAGE_BUILD_DATE := $(shell date --iso-8601=minutes --universal)
 
-ifeq ($(GITHUB_ACTIONS),true)
-	# We are running in GITHUB CI,
-	# Parse GITHUB_REF and GITHUB_SHA
-	# We will extract the
-	#  - Branch name in branch push builds
-	#  - Tagname in tag push builds
-	#  - Pull request number in PR builds.
-	GIT_REF            := $(strip $(shell echo "$${GITHUB_REF}" | sed -r 's/refs\/(heads|tags|pull)\///g;s/[\/\*\#]+/-/g'))
-	GIT_SHA_SHORT      := $(shell echo "$${GITHUB_SHA:0:7}")
-	# Its a CI build and we are not changing anything, so assume git tree is clean.
-	GIT_DIRTY          := false
-	IMAGE_BUILD_SYSTEM := actions
-	IMAGE_BUILD_HOST   := $(shell hostname -f)
-else
-	# If in detached head state this will give HEAD, just keep it in your HEAD :P
-	GIT_BRANCH := $(strip $(shell git rev-parse --abbrev-ref HEAD | sed -r 's/[\/\*\#]+/-/g'))
-
-	# Get latest tag. This will be empty if there are no tags pointing at HEAD
-	# on actions build, tag triggers a separate build, GITHUB_REF handles it.
-	GIT_TAG := $(strip $(shell git describe --exact-match --tags $(git log -n1 --pretty='%h') 2> /dev/null))
-
-	# Generate GITHUB_* vars on local build
-	GITHUB_ACTIONS     := false
-
-	# Commit details
-	GITHUB_SHA         := $(shell git log -1 --pretty=format:"%H")
-	GIT_SHA_SHORT      := $(shell git log -1 --pretty=format:"%h")
-
-	# Builder details
-
-	# Do not leak local/internal hostnames if its not running in CI.
-	IMAGE_BUILD_HOST   := localhost
-	IMAGE_BUILD_SYSTEM := local
-
-	# Following are only valid on ACTIONS. They are of
-	# little importance on local builds. but assign them anyway for
-	# consitancy. Build Numbers and values are not valid.
-	GITHUB_RUN_NUMBER  := 0
-	GITHUB_ACTOR       := NA
-	GITHUB_WORKFLOW    := NA
-	GITHUB_REF         := NA
+# Get Latest semver tag.
+# This may not be latest tag! This is latest smever tag given by --sort
+# We will strip prefix v!!
+__GIT_TAG_LATEST_SEMVER := $(subst v,,$(shell git tag --sort=v:refname | tail -1))
 
 
-	# Get list of changes files
-	GIT_UNTRACKED_CHANGES := $(shell git status --porcelain --untracked-files=no)
+# Check if required vars are defined
+$(call check_defined, DOCKER_IMAGES, Docker Images)
+$(call check_defined, IMAGE_TITLE, Image title for OCI annotations)
+$(call check_defined, IMAGE_DESC, Image description for OCI annotations)
+$(call check_defined, IMAGE_URL, Image description for OCI annotations)
+$(call check_defined, IMAGE_SOURCE, Image Source URL for OCI annotations)
+$(call check_defined, IMAGE_LICENSES, Licenses in SPDX License Expression format)
+$(call check_defined, IMAGE_DOCUMENTATION, Image Documentation URL for OCI annotations)
+$(call check_defined, IMAGE_ALWAYS_TAG_LATEST, Always add tag latest if on default branch)
 
-	# GIT_REF
-	# In local builds, if we have a tag pointing at HEAD && our git tree is not dirty, set GIT_REF to GIT_TAG.
-	# Otherwise set this to GIT_BRANCH
-	GIT_REF    := $(shell if [[ "$(GIT_UNTRACKED_CHANGES)" == "" ]] && [[ "$(GIT_TAG)" != "" ]]; then echo "$(GIT_TAG)"; else echo "$(GIT_BRANCH)"; fi )
-	GIT_DIRTY  := $(shell if [[ "$(GIT_UNTRACKED_CHANGES)" == "" ]]; then echo "false"; else echo "true"; fi)
-endif
 
+# If on default brach
+__IMAGE_ADD_TAG_LATEST := $(shell \
+if [[ $(GIT_BRANCH) == "$(DEFAULT_BRANCH)" ]] \
+  && [[ $(IMAGE_ALWAYS_TAG_LATEST) == "true" ]]; then \
+  echo "true"; \
+elif [[ $(GIT_BRANCH) == "$(DEFAULT_BRANCH)" ]] \
+  && [[ $(IMAGE_ALWAYS_TAG_LATEST) != "true" ]] \
+  && [[ $(GIT_TAGGED) == "true" ]] \
+  && [[ $(__GIT_TAG_LATEST_SEMVER) == $(VERSION) ]]; then \
+  echo "true"; \
+else \
+  echo "false"; \
+fi)
+
+
+# Build Full Tags
+DOCKER_TAGS  := $(foreach __REG,$(DOCKER_IMAGES),$(__REG):$(VERSION))
 
 # Now start building docker tags
-# If we are on master set version to latest.
-ifeq ($(GIT_REF),master)
-	DOCKER_TAGS := $(foreach __REG,$(DOCKER_IMAGES),$(__REG):latest)
-else
-	DOCKER_TAGS := $(foreach __REG,$(DOCKER_IMAGES),$(__REG):$(GIT_REF))
+# If we are on default branch add tag latest
+ifeq ($(__IMAGE_ADD_TAG_LATEST),true)
+	DOCKER_TAGS += $(foreach __REG,$(DOCKER_IMAGES),$(__REG):latest)
 endif
-
-# Add Additional Tags if VERSION is defined already
-# AKA if VERSION is defined, WE WILL add ttag image:$(VERSION) to docker tags. This is
-# independent of git tags.
-ifneq ($(VERSION),)
-	# VERSION is NOT empty, assign tags.
-	DOCKER_TAGS   += $(foreach __REG,$(DOCKER_IMAGES),$(__REG):$(VERSION))
-	IMAGE_VERSION := $(VERSION)
-else
-	IMAGE_VERSION := $(GIT_REF)
-endif
-
-# Add GIT_SHA_SHORT to docker tags
-# DOCKER_TAGS += $(foreach __REG,$(DOCKER_IMAGES),$(__REG):$(GIT_SHA_SHORT))
 
 # Check if we have buildx enabled
 ifeq ($(BUILDX_ENABLE),1)
@@ -120,25 +88,14 @@ ifneq ($(DOCKER_TARGET),)
 	DOCKER_BUILD_COMMAND += --target "$(DOCKER_TARGET)"
 endif
 
-.PHONY: docker-check-variables
-docker-check-variables: ## Check if required variables are defined
-	@echo -e "\033[92m➜ $@ \033[0m"
-	$(call check_defined, DOCKER_IMAGES, Docker Images)
-	$(call check_defined, IMAGE_TITLE, Image title for OCI annotations)
-	$(call check_defined, IMAGE_DESC, Image description for OCI annotations)
-	$(call check_defined, IMAGE_URL, Image description for OCI annotations)
-	$(call check_defined, IMAGE_SOURCE, Image Source URL for OCI annotations)
-	$(call check_defined, IMAGE_LICENSES, Licenses in SPDX License Expression format)
-	$(call check_defined, IMAGE_DOCUMENTATION, Image Documentation URL for OCI annotations)
-	@echo -e "\033[92m✔ \033[0mRequired variables are defined"
 
 .PHONY: docker-lint
 docker-lint: ## Runs the linter on Dockerfiles.
 	@echo -e "\033[92m➜ $@ \033[0m"
-	docker run --rm -i hadolint/hadolint < "$(DOCKERFILE_PATH)"
+	docker run --rm hadolint/hadolint < "$(DOCKERFILE_PATH)"
 
 .PHONY: docker
-docker: docker-check-variables ## Build docker image.
+docker: ## Build docker image.
 	@echo -e "\033[92m➜ $@ \033[0m"
 	@echo -e "\033[92m🐳 Building Docker Image \033[0m"
 	DOCKER_BUILDKIT=$(DOCKER_BUILDKIT) docker \
@@ -149,31 +106,29 @@ docker: docker-check-variables ## Build docker image.
     --label org.opencontainers.image.description="$(IMAGE_DESC)" \
     --label org.opencontainers.image.documentation="$(IMAGE_DOCUMENTATION)" \
     --label org.opencontainers.image.licenses="$(IMAGE_LICENSES)" \
-    --label org.opencontainers.image.revision="$(GITHUB_SHA)" \
+    --label org.opencontainers.image.revision="$(GIT_COMMIT)" \
     --label org.opencontainers.image.source="$(IMAGE_SOURCE)" \
     --label org.opencontainers.image.title="$(IMAGE_TITLE)" \
     --label org.opencontainers.image.url="$(IMAGE_URL)" \
-    --label org.opencontainers.image.vendor="$(IMAGE_VENDOR)" \
-    --label org.opencontainers.image.version="$(IMAGE_VERSION)" \
-    --label io.github.tprasadtp.meta="3" \
-    --label io.github.tprasadtp.build.system="$(IMAGE_BUILD_SYSTEM)" \
-    --label io.github.tprasadtp.build.host="$(IMAGE_BUILD_HOST)" \
-    --label io.github.tprasadtp.actions.workflow="$(GITHUB_WORKFLOW)" \
-    --label io.github.tprasadtp.actions.build="$(GITHUB_RUN_NUMBER)" \
-    --label io.github.tprasadtp.actions.actor="$(GITHUB_ACTOR)" \
-    --label io.github.tprasadtp.actions.ref="$(GITHUB_REF)" \
-    --label io.github.tprasadtp.git.commit="$(GIT_SHA_SHORT)" \
-    --label io.github.tprasadtp.git.dirty="$(GIT_DIRTY)" \
+    --label org.opencontainers.image.vendor="$(VENDOR)" \
+    --label org.opencontainers.image.version="$(VERSION)" \
+    --label io.github.tprasadtp.metadata.version="5" \
+    --label io.github.tprasadtp.metadata.buildSystem="$(BUILD_SYSTEM)" \
+    --label io.github.tprasadtp.metadata.buildNumber="$(BUILD_NUMBER)" \
+    --label io.github.tprasadtp.metadata.buildHost="$(BUILD_HOST)" \
+    --label io.github.tprasadtp.metadata.gitCommit="$(GIT_COMMIT)" \
+    --label io.github.tprasadtp.metadata.gitBranch="$(GIT_BRANCH)" \
+    --label io.github.tprasadtp.metadata.gitTreeState="$(GIT_TREE_STATE)" \
     --file $(DOCKERFILE_PATH) \
     $(DOCKER_CONTEXT_DIR)
 
 .PHONY: docker-inspect
-docker-inspect: docker-check-variables ## Inspect Labels of the container [Build First!]
+docker-inspect: ## Inspect Labels of the container [Build First!]
 	@echo -e "\033[92m➜ $@ \033[0m"
 	docker $(DOCKER_INSPECT_ARGS)
 
 .PHONY: docker-push
-docker-push: docker-check-variables ## Push docker image.
+docker-push: ## Push docker image.
 	@echo -e "\033[92m➜ $@ \033[0m"
 	@for tag in $(DOCKER_TAGS); do \
 		echo -e "\033[92m🐳 Pushing $${tag}\033[0m\n" \
@@ -187,7 +142,7 @@ endef
 
 
 .PHONY: docker-show-tags
-docker-show-tags: docker-check-variables ## Show Docker Image Tags
+docker-show-tags: ## Show Docker Image Tags
 	@echo "------------- Docker Tags ---------------------"
 	$(call print_docker_tags)
 
@@ -195,6 +150,7 @@ docker-show-tags: docker-check-variables ## Show Docker Image Tags
 docker-show-vars:
 	@echo "------------  DOCKER VARIABLES ---------------"
 	@echo "DOCKER_IMAGES        : $(DOCKER_IMAGES)"
+	@echo "TAG_LATEST           : $(__IMAGE_ADD_TAG_LATEST)"
 	@echo "--------------  DOCKER TAGS ------------------"
 	$(call print_docker_tags)
 	@echo "-------------- PATH VARIABLES ----------------"
@@ -209,17 +165,6 @@ docker-show-vars:
 	@echo "DOCKER_BUILD_COMMAND : $(DOCKER_BUILD_COMMAND)"
 	@echo "DOCKER_EXTRA_ARGS    : $(DOCKER_EXTRA_ARGS)"
 	@echo "DOCKER_INSPECT_ARGS  : $(DOCKER_INSPECT_ARGS)"
-	@echo "------------- ACTION VARIABLES ----------------"
-	@echo "GITHUB_ACTIONS       : $(GITHUB_ACTIONS)"
-	@echo "GITHUB_WORKFLOW      : $(GITHUB_WORKFLOW)"
-	@echo "GITHUB_RUN_NUMBER    : $(GITHUB_RUN_NUMBER)"
-	@echo "GITHUB_REF           : $(GITHUB_REF)"
-	@echo "-------------- GIT VARIABLES ------------------"
-	@echo "GIT_BRANCH           : $(GIT_BRANCH)"
-	@echo "GITHUB_SHA           : $(GITHUB_SHA)"
-	@echo "GIT_SHA_SHORT        : $(GIT_SHA_SHORT)"
-	@echo "GIT_REF              : $(GIT_REF)"
-	@echo "GIT_TAG              : $(GIT_TAG)"
-	@echo "GIT_DIRTY            : $(GIT_DIRTY)"
 
-# END-DOCKER-TEMPLATE
+# diana:{diana_version}:{remote}:{source}:{version}:{remote_path}:{type}
+# diana:0.2.7:github:tprasadtp/templates::makefiles/base.mk:static
