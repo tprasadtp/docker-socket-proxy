@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-NAME  := protonvpn-docker
+NAME  := docker-socket-proxy
 export REPO_ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # OCI Metadata
