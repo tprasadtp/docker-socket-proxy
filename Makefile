@@ -1,17 +1,18 @@
 SHELL := /bin/bash
-NAME  := protonvpn-docker
+NAME  := docker-socket-proxy
 export REPO_ROOT := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+# OCI Metadata
 # Define image names
-DOCKER_IMAGES           := ghcr.io/tprasadtp/docker-socket-proxy tprasadtp/docker-socket-proxy
+DOCKER_IMAGES       := ghcr.io/tprasadtp/docker-socket-proxy tprasadtp/docker-socket-proxy
 
 # OCI Metadata
-IMAGE_TITLE             := Docker Socket Proxy
-IMAGE_DESC              := This is a security-enhanced proxy for the Docker Socket
-IMAGE_URL               := https://hub.docker.com/r/tprasadtp/docker-socket-proxy
-IMAGE_SOURCE            := https://github.com/tprasadtp/docker-socket-proxy
-IMAGE_DOCUMENTATION     := https://github.com/tprasadtp/docker-socket-proxy
-IMAGE_LICENSES          := Apache-2.0
+IMAGE_TITLE         := Docker Socket Proxy
+IMAGE_DESC          := This is a security-enhanced proxy for the Docker Socket
+IMAGE_URL           := https://hub.docker.com/r/tprasadtp/docker-socket-proxy
+IMAGE_SOURCE        := https://github.com/tprasadtp/docker-socket-proxy
+IMAGE_DOCUMENTATION := https://github.com/tprasadtp/docker-socket-proxy
+IMAGE_LICENSES      := Apache-2.0
 
 # Include makefiles
 include $(REPO_ROOT)/makefiles/base.mk

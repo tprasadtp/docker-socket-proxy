@@ -1,18 +1,20 @@
 # Docker Socket Proxy
 
 [![actions](https://github.com/tprasadtp/docker-socket-proxy/workflows/build/badge.svg)](https://github.com/tprasadtp/docker-socket-proxy/actions?workflow=build)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tprasadtp/docker-socket-proxy?label=version&logo=github&sort=semver)](https://github.com/tprasadtp/docker-socket-proxy/releases/latest)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/tprasadtp/docker-socket-proxy?label=version&logo=github&sort=semver)][releases]
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/tprasadtp/docker-socket-proxy?color=0db7ed&label=hub.docker.com&logo=docker&logoColor=0db7ed&sort=semver)][dockerhub]
 [![Docker Pulls](https://img.shields.io/docker/pulls/tprasadtp/docker-socket-proxy?color=0db7ed&label=hub.docker.com&logo=docker&logoColor=0db7ed)][dockerhub]
-[![Image Size](https://img.shields.io/docker/image-size/tprasadtp/docker-socket-proxy/latest?color=0db7ed&logo=docker&logoColor=0db7ed)][ghcr]
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/tprasadtp/docker-socket-proxy/latest?color=0db7ed&label=size&logo=docker&logoColor=0db7ed)][dockerhub]
 [![dependabot](https://api.dependabot.com/badges/status?host=github&repo=tprasadtp/docker-socket-proxy)](https://app.dependabot.com)
 ![Analytics](https://ga-beacon.prasadt.com/UA-101760811-3/github/docker-socket-proxy?pink&useReferer)
+[![License](https://img.shields.io/github/license/tprasadtp/docker-socket-proxy?color=ee70a6&logo=adobe-acrobat-reader&logoColor=ee70a6)](https://github.com/tprasadtp/docker-socket-proxy/blob/master/LICENSE)
 
 Images are published on,
 
 - [DockerHub][dockerhub]
 - [GitHub Package registry][ghcr]
 
-> This fork provides ARM/ARM64 images, provides much more granular control over API endpoints and adds some tests.
+> GitHub container registry is preferred. Though currently there is no plan to discontinue updating images on DockerHub, its advised that you switch to GitHub registry.
 
 ## What?
 
@@ -164,10 +166,11 @@ environment variable `LOG_LEVEL`. Default value is info.
 
 ## Feedback
 
-Please send any feedback (issues, questions) to the [issue tracker][].
+Please send any feedback (issues, questions) to the [issue tracker][issues].
 
 [Alpine]: https://alpinelinux.org/
 [HAProxy]: http://www.haproxy.org/
-[issue tracker]: https://github.com/tprasadtp/docker-socket-proxy/issues
+[issues]: https://github.com/tprasadtp/docker-socket-proxy/issues
 [ghcr]: https://github.com/users/tprasadtp/packages/container/package/docker-socket-proxy
 [dockerhub]: https://hub.docker.com/r/tprasadtp/docker-socket-proxy
+[releases]: https://github.com/tprasadtp/docker-socket-proxy/releases/latest
